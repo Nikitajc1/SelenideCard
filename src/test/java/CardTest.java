@@ -7,7 +7,7 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class CardTest {
 
-    Main date = new Main();
+    DateClass date = new DateClass();
     String deleteString = Keys.chord(Keys.CONTROL, "a") + Keys.DELETE;
 
 
@@ -19,7 +19,6 @@ public class CardTest {
     @Test
     void validValueTest() {
         $("[data-test-id=city] input").setValue("Краснодар");
-//        $x("//div[contains(@class, 'menu')]").click();
         $("[data-test-id=date] input").setValue(deleteString);
         $("[data-test-id=date] input").setValue(date.threeDaysAfter());
         $("[data-test-id=name] input").setValue("Иван Петров-Иванов");
@@ -56,7 +55,6 @@ public class CardTest {
     @Test
     void invalidName() {
         $("[data-test-id=city] input").setValue("Краснодар");
-//        $x("//div[contains(@class, 'menu')]").click();
         $("[data-test-id=date] input").setValue(date.threeDaysAfter());
         $("[data-test-id=name] input").setValue("Ivan Petrov");
         $("[data-test-id=phone] input").setValue("+79998887766");
@@ -68,7 +66,6 @@ public class CardTest {
     @Test
     void emptyName() {
         $("[data-test-id=city] input").setValue("Краснодар");
-//        $x("//div[contains(@class, 'menu')]").click();
         $("[data-test-id=date] input").setValue(date.threeDaysAfter());
         $("[data-test-id=name] input").setValue("");
         $("[data-test-id=phone] input").setValue("+79998887766");
@@ -81,7 +78,6 @@ public class CardTest {
     @Test
     void invalidDate() {
         $("[data-test-id=city] input").setValue("Краснодар");
-//        $x("//div[contains(@class, 'menu')]").click();
         $("[data-test-id=name] input").setValue("Иван Петров-Иванов");
         $("[data-test-id=date] input").setValue(deleteString);
         $("[data-test-id=phone] input").setValue("+79998887766");
@@ -93,7 +89,6 @@ public class CardTest {
     @Test
     void invalidDateSecond() {
         $("[data-test-id=city] input").setValue("Краснодар");
-//        $x("//div[contains(@class, 'menu')]").click();
         $("[data-test-id=name] input").setValue("Иван Петров-Иванов");
         $("[data-test-id=date] input").setValue(deleteString);
         $("[data-test-id=date] input").setValue("01.01.0001");
@@ -106,7 +101,6 @@ public class CardTest {
     @Test
     void emptyPhone() {
         $("[data-test-id=city] input").setValue("Краснодар");
-//        $x("//div[contains(@class, 'menu')]").click();
         $("[data-test-id=name] input").setValue("Иван Петров-Иванов");
         $("[data-test-id=date] input").setValue(deleteString);
         $("[data-test-id=date] input").setValue(date.threeDaysAfter()).pressEscape();
@@ -119,7 +113,6 @@ public class CardTest {
     @Test
     void invalidPhone() {
         $("[data-test-id=city] input").setValue("Краснодар");
-//        $x("//div[contains(@class, 'menu')]").click();
         $("[data-test-id=name] input").setValue("Иван Петров-Иванов");
         $("[data-test-id=date] input").setValue(deleteString);
         $("[data-test-id=date] input").setValue(date.threeDaysAfter());
@@ -132,7 +125,6 @@ public class CardTest {
     @Test
     void checkboxMissed() {
         $("[data-test-id=city] input").setValue("Краснодар");
-//        $x("//div[contains(@class, 'menu')]").click();
         $("[data-test-id=date] input").setValue(deleteString);
         $("[data-test-id=date] input").setValue(date.threeDaysAfter());
         $("[data-test-id=name] input").setValue("Иван Петров-Иванов");
@@ -144,7 +136,6 @@ public class CardTest {
     @Test
     void notificationXMark() {
         $("[data-test-id=city] input").setValue("Краснодар");
-//        $x("//div[contains(@class, 'menu')]").click();
         $("[data-test-id=date] input").setValue(deleteString);
         $("[data-test-id=date] input").setValue(date.threeDaysAfter());
         $("[data-test-id=name] input").setValue("Иван Петров-Иванов");
@@ -153,6 +144,19 @@ public class CardTest {
         $x("//span[contains(text(), 'Забронировать')]").click();
         $("[data-test-id=notification]").should(Condition.appear, Duration.ofMillis(14000));
         $("[data-test-id=notification] button .icon-button__content").click();
+    }
+
+    @Test
+    void notificationValue() {
+        $("[data-test-id=city] input").setValue("Краснодар");
+        $("[data-test-id=date] input").setValue(deleteString);
+        $("[data-test-id=date] input").setValue(date.threeDaysAfter());
+        $("[data-test-id=name] input").setValue("Иван Петров-Иванов");
+        $("[data-test-id=phone] input").setValue("+79998887766");
+        $("[data-test-id=agreement]").click();
+        $x("//span[contains(text(), 'Забронировать')]").click();
+        $("[data-test-id=notification]").should(Condition.appear, Duration.ofMillis(14000));
+        $("[data-test-id=notification] div.notification__content").shouldHave(Condition.exactText("Встреча успешно забронирована на " + date.threeDaysAfter())).shouldBe(Condition.visible);
     }
 
 
